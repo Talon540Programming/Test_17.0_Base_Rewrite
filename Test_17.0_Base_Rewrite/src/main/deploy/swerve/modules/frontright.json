@@ -3,7 +3,7 @@
   "angle": { "type": "sparkmax", "id": 4, "canbus": null },
   "encoder": {
     "type": "thrifty",
-    "analogPort": 1
+    "id": 1
   },
   "inverted": { "drive": false, "angle": true },
   "absoluteEncoderOffset": 97.712,
