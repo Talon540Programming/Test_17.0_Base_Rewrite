@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -11,21 +13,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    // Create RobotContainer, which sets up the swerve + controller bindings
+    // Start WPILib data logging (creates .wpilog files)
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog());
+
     m_robotContainer = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
-    // Run the command scheduler every loop
     CommandScheduler.getInstance().run();
   }
 
   @Override
   public void autonomousInit() {
-    // Get whatever auto command RobotContainer exposes (currently just a stub)
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -41,7 +43,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // Cancel auto when teleop starts
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
       m_autonomousCommand = null;
@@ -56,7 +57,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    // Cancel all commands when entering test mode
     CommandScheduler.getInstance().cancelAll();
   }
 
