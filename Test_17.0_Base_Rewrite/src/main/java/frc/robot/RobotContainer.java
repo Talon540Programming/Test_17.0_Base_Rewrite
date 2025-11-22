@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -17,6 +18,10 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
 
+  // Rotation scale: 30% in sim, 100% on real robot
+  private static final double ROTATION_SCALE =
+      RobotBase.isSimulation() ? 0.05 : 1.0;
+
   // YAGSL drive input stream
   private final SwerveInputStream driveAngularVelocity =
       SwerveInputStream.of(
@@ -25,7 +30,8 @@ public class RobotContainer {
               () -> -m_driverController.getLeftX()) // strafe
           .withControllerRotationAxis(() -> -m_driverController.getRightX()) // rotation
           .deadband(OperatorConstants.DEADBAND)
-          .scaleTranslation(1.0)  // full speed; lower if you want a cap
+          .scaleTranslation(1.0)          // full translation speed
+          .scaleRotation(ROTATION_SCALE)  // 30% in sim, 100% on real
           .allianceRelativeControl(true); // always field-relative
 
   // You can copy() and rescale driveRegular later for slow mode, etc.
